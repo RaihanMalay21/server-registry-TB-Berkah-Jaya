@@ -8,7 +8,7 @@ import (
 
     "gorm.io/gorm"
 
-    config "github.com/RaihanMalay21/config-TB_Berkah_Jaya"
+    config "github.com/RaihanMalay21/config-tb-berkah-jaya"
     models "github.com/RaihanMalay21/models_TB_Berkah_Jaya"
     helper "github.com/RaihanMalay21/helper_TB_Berkah_Jaya"
     middlewares "github.com/RaihanMalay21/middlewares_TB_Berkah_Jaya"

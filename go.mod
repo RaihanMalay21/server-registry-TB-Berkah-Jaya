@@ -3,12 +3,13 @@ module github.com/RaihanMalay21/server-registry-TB-Berkah-Jaya
 go 1.22.2
 
 require (
-	github.com/RaihanMalay21/config-TB_Berkah_Jaya v0.0.0-20240815101606-7ddbe454be63
+	github.com/RaihanMalay21/config-tb-berkah-jaya v0.0.0-20240816080202-89dea7bb4e63
 	github.com/RaihanMalay21/helper_TB_Berkah_Jaya v0.0.0-20240814070420-03c9c77d5327
 	github.com/RaihanMalay21/middlewares_TB_Berkah_Jaya v0.0.0-20240814064550-452663fa833a
 	github.com/RaihanMalay21/models_TB_Berkah_Jaya v0.0.0-20240810142202-0d5c147efc3b
 	github.com/go-playground/validator/v10 v10.22.0
 	github.com/golang-jwt/jwt/v5 v5.2.1
+	github.com/gorilla/handlers v1.5.2
 	github.com/gorilla/mux v1.8.1
 	golang.org/x/crypto v0.26.0
 	gorm.io/gorm v1.25.11
@@ -16,6 +17,8 @@ require (
 
 require (
 	filippo.io/edwards25519 v1.1.0 // indirect
+	github.com/RaihanMalay21/config-TB_Berkah_Jaya v0.0.0-20240814065814-87531eb1c6db // indirect
+	github.com/felixge/httpsnoop v1.0.3 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.5 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
