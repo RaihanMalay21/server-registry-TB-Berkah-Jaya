@@ -94,7 +94,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 			Value: token,
 			HttpOnly: true,
 			Secure: true, 
-			Path: "/berkahjaya",
+			Path: "/",
 			MaxAge: 24 * 60 * 60,
 			SameSite: http.SameSiteLaxMode,
 		})
@@ -104,12 +104,6 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		session.Values["role"] = "Admin"
 
 		if err := session.Save(r, w); err != nil {
-			// menghapus cookie
-			http.SetCookie(w, &http.Cookie{
-				Name: "token",
-				Value: "",
-				MaxAge: -1,
-			})
 			log.Println("Error saving session:", err)
 			http.Error(w, "cannot save session", http.StatusInternalServerError)
 			return
@@ -195,7 +189,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		Value: token, 
 		HttpOnly: true,
 		Secure: true,
-		Path: "/berkahjaya",
+		Path: "/",
 		MaxAge: 24 * 60 * 60,
 		SameSite: http.SameSiteLaxMode,
 	})
@@ -205,12 +199,6 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	session.Values["role"] = "Customers"
 
 	if err := session.Save(r, w); err != nil {
-		// mengapus cookie yang telah di set sebelumnya
-		http.SetCookie(w, &http.Cookie{
-			Name : "token",
-			Value: "",
-			MaxAge: -1,
-		})
 		log.Println("Error saving session:", err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
