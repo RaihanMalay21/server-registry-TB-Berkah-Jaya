@@ -5,7 +5,6 @@ import (
 	"github.com/gorilla/handlers"
 	"net/http"
 	"log"
-	"os"
 
 	"github.com/RaihanMalay21/server-registry-TB-Berkah-Jaya/controller"
 	"github.com/RaihanMalay21/server-registry-TB-Berkah-Jaya/controller/template"
@@ -26,7 +25,7 @@ func main() {
 	api.HandleFunc("/forgot/password/reset", controller.ForgotPasswordChangePassword).Methods("POST")
 
 	log.Fatal(http.ListenAndServe(":8080", 
-		handlers.CROS(
+		handlers.CORS(
 			handlers.AllowedOrigins([]string{"http://localhost:3000"}),
 			handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}),
 			handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"}),
