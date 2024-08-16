@@ -29,6 +29,6 @@ func main() {
 			handlers.AllowedOrigins([]string{"http://localhost:3000"}),
 			handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}),
 			handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"}),
-			handlers.AllowedCredentials(),
+			handlers.AllowCredentials(),
 		)(r)))
 }
