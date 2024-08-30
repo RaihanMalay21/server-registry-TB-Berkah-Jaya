@@ -24,14 +24,12 @@ func main() {
 	api.HandleFunc("/forgot/password/reset", template.PageResetPassword).Methods("GET")
 	api.HandleFunc("/forgot/password/reset", controller.ForgotPasswordChangePassword).Methods("POST")
 
-	const corsHandler = {
-		handlers.CORS(
+	corsHandler := handlers.CORS(
 			handlers.AllowedOrigins([]string{"https://fe-tb-berkah-jaya-igcfjdj5fa-uc.a.run.app"}),
 			handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}),
 			handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"}),
 			handlers.AllowCredentials(),
 		)
-	}
 
 	log.Fatal(http.ListenAndServe(":8080", corsHandler(r)))
 }
