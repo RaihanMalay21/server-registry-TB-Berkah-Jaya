@@ -30,6 +30,9 @@ func LogOut(w http.ResponseWriter, r *http.Request) {
 		Value: "",
 		MaxAge: -1,
 		Path:  "/",
+		Secure: true,
+		HttpOnly: true,
+		SameSite: http.SameSiteNoneMode,
 	})
 
 	helper.Response(w, "Logout Berhasil", http.StatusOK)

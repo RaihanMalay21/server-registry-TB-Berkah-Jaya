@@ -24,7 +24,6 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Gagal login!, Silahkan coba lagi", http.StatusInternalServerError)
 		return
 	}
-
 	
 	// inialisasi session
 	session, err := config.Store.Get(r, "berkah-jaya-session")
@@ -96,7 +95,8 @@ func Login(w http.ResponseWriter, r *http.Request) {
 			Secure: true, 
 			Path: "/",
 			MaxAge: 24 * 60 * 60,
-			SameSite: http.SameSiteLaxMode,
+			// SameSite: http.SameSiteLaxMode,
+			SameSite: http.SameSiteNoneMode, // mengizinkan lintas domain
 		})
 
 		// set session untuk menyimpan data sensitif users 
@@ -191,7 +191,8 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		Secure: true,
 		Path: "/",
 		MaxAge: 24 * 60 * 60,
-		SameSite: http.SameSiteLaxMode,
+		// SameSite: http.SameSiteLaxMode,
+		SameSite: http.SameSiteNoneMode,
 	})
 
 	// menyimpan data sensitif ke dalam session
