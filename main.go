@@ -39,12 +39,12 @@ func main() {
 func corsMiddlewares(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		origin := r.Header.Get("Origin")
-		fmt.Println("Origin recived:", origin)
+		fmt.Println("Origin received:", origin)
 
-		originAllowed := "http://localhost:3000"
+		allowedOrigins := "http://localhost:3000"
 
-		if origin == originAllowed {
-			w.Header().Set("Access-Control-Allow-Origin", originAllowed)
+		if origin == allowedOrigins {
+			w.Header().Set("Access-Control-Allow-Origin", allowedOrigins)
 			w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
 			w.Header().Set("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, Authorization")
 			w.Header().Set("Access-Control-Allow-Credentials", "true")
