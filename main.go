@@ -2,9 +2,10 @@ package main
 
 import (
 	"github.com/gorilla/mux"
-	"github.com/gorilla/handlers"
+	// "github.com/gorilla/handlers"
 	"net/http"
 	"log"
+	"fmt"
 
 	"github.com/RaihanMalay21/server-registry-TB-Berkah-Jaya/controller"
 	"github.com/RaihanMalay21/server-registry-TB-Berkah-Jaya/controller/template"
@@ -36,9 +37,9 @@ func main() {
 }
 
 func corsMiddlewares(next http.Handler) http.Handler {
-	func(w http.ResponseWriter, r *http.Request) {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		origin := r.Header.Get("Origin")
-		fmt.Println("Origin recived:", err)
+		fmt.Println("Origin recived:", origin)
 
 		originAllowed := "http://localhost:3000"
 
@@ -54,5 +55,5 @@ func corsMiddlewares(next http.Handler) http.Handler {
 		}
 
 		next.ServeHTTP(w, r)
-	}
+	})
 }
