@@ -25,7 +25,7 @@ func main() {
 	api.HandleFunc("/forgot/password/reset", template.PageResetPassword).Methods("GET")
 	api.HandleFunc("/forgot/password/reset", controller.ForgotPasswordChangePassword).Methods("POST")
 	
-	r.Use(corsMiddlewares)
+	api.Use(corsMiddlewares)
 	// corsHandler := handlers.CORS(
 	// 	handlers.AllowedOrigins([]string{"https://fe-tb-berkah-jaya-igcfjdj5fa-uc.a.run.app"}),
 	// 	handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}),
@@ -44,7 +44,7 @@ func corsMiddlewares(next http.Handler) http.Handler {
 		allowedOrigins := "http://localhost:3000"
 
 		if origin == allowedOrigins {
-			w.Header().Set("Access-Control-Allow-Origin", "*")
+			w.Header().Set("Access-Control-Allow-Origin", allowedOrigins)
 			w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
 			w.Header().Set("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, Authorization")
 			w.Header().Set("Access-Control-Allow-Credentials", "true")
