@@ -51,6 +51,7 @@ func corsMiddlewares(next http.Handler) http.Handler {
 		}
 
 		if r.Method == http.MethodOptions {
+			w.WriteHeader(http.StatusOK)
 			return
 		}
 
