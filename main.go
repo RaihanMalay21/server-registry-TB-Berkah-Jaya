@@ -16,6 +16,7 @@ func main() {
 	r := mux.NewRouter()
 
 	config.DB_Connection()
+	r.Use(corsMiddlewares)
 	api := r.PathPrefix("/berkahjaya").Subrouter()
 	api.HandleFunc("/login", controller.Login).Methods("POST")
 	api.HandleFunc("/signup", controller.SignUp).Methods("POST") 
@@ -25,7 +26,6 @@ func main() {
 	api.HandleFunc("/forgot/password/reset", template.PageResetPassword).Methods("GET")
 	api.HandleFunc("/forgot/password/reset", controller.ForgotPasswordChangePassword).Methods("POST")
 	
-	api.Use(corsMiddlewares)
 	// corsHandler := handlers.CORS(
 	// 	handlers.AllowedOrigins([]string{"https://fe-tb-berkah-jaya-igcfjdj5fa-uc.a.run.app"}),
 	// 	handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}),
