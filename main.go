@@ -15,6 +15,7 @@ func main() {
 	r := mux.NewRouter()
 
 	config.DB_Connection()
+	r.Use(corsMiddlewares)
 	api := r.PathPrefix("/berkahjaya").Subrouter()
 	api.HandleFunc("/login", controller.Login).Methods("POST")
 	api.HandleFunc("/signup", controller.SignUp).Methods("POST") 
@@ -24,12 +25,34 @@ func main() {
 	api.HandleFunc("/forgot/password/reset", template.PageResetPassword).Methods("GET")
 	api.HandleFunc("/forgot/password/reset", controller.ForgotPasswordChangePassword).Methods("POST")
 
-	corsHandler := handlers.CORS(
-			handlers.AllowedOrigins([]string{"https://fe-tb-berkah-jaya-igcfjdj5fa-uc.a.run.app"}),
-			handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}),
-			handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"}),
-			handlers.AllowCredentials(),
-		)
+	// corsHandler := handlers.CORS(
+	// 	handlers.AllowedOrigins([]string{"https://fe-tb-berkah-jaya-igcfjdj5fa-uc.a.run.app"}),
+	// 	handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}),
+	// 	handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"}),
+	// 	handlers.AllowCredentials(),
+	// )
 
-	log.Fatal(http.ListenAndServe(":8080", corsHandler(r)))
+	log.Fatal(http.ListenAndServe(":8080", r))
+}
+
+func corsMiddlewares(next http.Handler) http.Handler {
+	func(w http.ResponseWriter, r *http.Request) {
+		origin := r.Header.Get("Origin")
+		fmt.Println("Origin recived:", err)
+
+		originAllowed := "http://localhost:3000"
+
+		if origin == originAllowed {
+			w.Header().Set("Access-Control-Allow-Origin", originAllowed)
+			w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+			w.Header().Set("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, Authorization")
+			w.Header().Set("Access-Control-Allow-Credentials", "true")
+		}
+
+		if r.Method == http.MethodOptions {
+			return
+		}
+
+		next.ServeHTTP(w, r)
+	}
 }
