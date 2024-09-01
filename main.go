@@ -18,13 +18,13 @@ func main() {
 	config.DB_Connection()
 	r.Use(corsMiddlewares)
 	api := r.PathPrefix("/berkahjaya").Subrouter()
-	api.HandleFunc("/login", controller.Login).Methods("POST")
-	api.HandleFunc("/signup", controller.SignUp).Methods("POST") 
-	api.HandleFunc("/logout", controller.LogOut).Methods("GET")
+	api.HandleFunc("/login", controller.Login).Methods("POST", "OPTIONS")
+	api.HandleFunc("/signup", controller.SignUp).Methods("POST", "OPTIONS") 
+	api.HandleFunc("/logout", controller.LogOut).Methods("GET", "OPTIONS")
 	// r.HandleFunc("/get/hadiah", controller.Hadiah).Methods("GET")
-	api.HandleFunc("/forgot/password", controller.ForgotPassword).Methods("POST")
-	api.HandleFunc("/forgot/password/reset", template.PageResetPassword).Methods("GET")
-	api.HandleFunc("/forgot/password/reset", controller.ForgotPasswordChangePassword).Methods("POST")
+	api.HandleFunc("/forgot/password", controller.ForgotPassword).Methods("POST", "OPTIONS")
+	api.HandleFunc("/forgot/password/reset", template.PageResetPassword).Methods("GET", "OPTIONS")
+	api.HandleFunc("/forgot/password/reset", controller.ForgotPasswordChangePassword).Methods("POST", "OPTIONS")
 	
 	// corsHandler := handlers.CORS(
 	// 	handlers.AllowedOrigins([]string{"https://fe-tb-berkah-jaya-igcfjdj5fa-uc.a.run.app"}),
