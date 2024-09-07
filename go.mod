@@ -3,7 +3,7 @@ module github.com/RaihanMalay21/server-registry-TB-Berkah-Jaya
 go 1.21.5
 
 require (
-	github.com/RaihanMalay21/config-tb-berkah-jaya v0.0.0-20240907102035-8df392939c5a // indirect
+	github.com/RaihanMalay21/config-tb-berkah-jaya v0.0.0-20240907124242-65fa586f3737 // indirect
 	github.com/RaihanMalay21/helper_TB_Berkah_Jaya v0.0.0-20240907103459-5f930ff49b6a // indirect
 	github.com/RaihanMalay21/middlewares_TB_Berkah_Jaya v0.0.0-20240907120716-42c211ea2001 // indirect
 	github.com/RaihanMalay21/models_TB_Berkah_Jaya v0.0.0-20240903065552-055e854f0e7c // indirect
