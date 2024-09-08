@@ -5,7 +5,7 @@ import (
 	// "github.com/gorilla/handlers"
 	"net/http"
 	"log"
-	"fmt"
+	// "fmt"
 
 	"github.com/RaihanMalay21/server-registry-TB-Berkah-Jaya/controller"
 	"github.com/RaihanMalay21/server-registry-TB-Berkah-Jaya/controller/template"
@@ -16,7 +16,7 @@ func main() {
 	r := mux.NewRouter()
 
 	config.DB_Connection()
-	r.Use(corsMiddlewares)
+	// r.Use(corsMiddlewares)
 	api := r.PathPrefix("/berkahjaya").Subrouter()
 	api.HandleFunc("/login", controller.Login).Methods("POST", "OPTIONS")
 	api.HandleFunc("/signup", controller.SignUp).Methods("POST", "OPTIONS") 
@@ -36,25 +36,25 @@ func main() {
 	log.Fatal(http.ListenAndServe(":8080", r))
 }
 
-func corsMiddlewares(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		origin := r.Header.Get("Origin")
-		fmt.Println("Origin received:", origin)
+// func corsMiddlewares(next http.Handler) http.Handler {
+// 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+// 		origin := r.Header.Get("Origin")
+// 		fmt.Println("Origin received:", origin)
 
-		allowedOrigins := "https://fe-tb-berkah-jaya-750892348569.us-central1.run.app"
+// 		allowedOrigins := "https://fe-tb-berkah-jaya-750892348569.us-central1.run.app"
 
-		if origin == allowedOrigins {
-			w.Header().Set("Access-Control-Allow-Origin", allowedOrigins)
-			w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
-			w.Header().Set("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, Authorization")
-			w.Header().Set("Access-Control-Allow-Credentials", "true")
-		}
+// 		if origin == allowedOrigins {
+// 			w.Header().Set("Access-Control-Allow-Origin", allowedOrigins)
+// 			w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+// 			w.Header().Set("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, Authorization")
+// 			w.Header().Set("Access-Control-Allow-Credentials", "true")
+// 		}
 
-		if r.Method == http.MethodOptions {
-			w.WriteHeader(http.StatusOK)
-			return
-		}
+// 		if r.Method == http.MethodOptions {
+// 			w.WriteHeader(http.StatusOK)
+// 			return
+// 		}
 
-		next.ServeHTTP(w, r)
-	})
-}
+// 		next.ServeHTTP(w, r)
+// 	})
+// }
