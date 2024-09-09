@@ -70,6 +70,8 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		expTime := time.Now().Add(24 * time.Hour)
 		claims := &config.JWTClaim{
 			UserName: Userlogin["usernameORemail"],
+			Role: "Admin",
+			ID: adminlogin.ID,
 			RegisteredClaims: jwt.RegisteredClaims{
 				Issuer: "go-jwt-mux",
 				ExpiresAt: jwt.NewNumericDate(expTime),
@@ -167,6 +169,8 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	expTime := time.Now().Add(24 * time.Hour)
 	claims := &config.JWTClaim{
 		UserName: login.UserName,
+		Role: "Customers",
+		ID: login.ID,
 		RegisteredClaims: jwt.RegisteredClaims{
 			Issuer: "go-jwt-mux",
 			ExpiresAt: jwt.NewNumericDate(expTime),
