@@ -11,7 +11,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 	models "github.com/RaihanMalay21/models_TB_Berkah_Jaya"
-	helper "github.com/RaihanMalay21/helper_TB_Berkah_Jaya"
+	helper "github.com/RaihanMalay21/server-registry-TB-Berkah-Jaya/helper"
 	config "github.com/RaihanMalay21/config-tb-berkah-jaya"
 )
 

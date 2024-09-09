@@ -3,7 +3,7 @@ package controller
 import (
     "net/http"
     config "github.com/RaihanMalay21/config-tb-berkah-jaya"
-    helper "github.com/RaihanMalay21/helper_TB_Berkah_Jaya"
+    helper "github.com/RaihanMalay21/server-registry-TB-Berkah-Jaya/helper"
 )
 
 func LogOut(w http.ResponseWriter, r *http.Request) {
