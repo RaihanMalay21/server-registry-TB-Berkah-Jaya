@@ -8,10 +8,9 @@ import (
     "golang.org/x/crypto/bcrypt"
     "gorm.io/gorm"
 
+    "github.com/RaihanMalay21/server-registry-TB-Berkah-Jaya/helper"
     config "github.com/RaihanMalay21/config-tb-berkah-jaya"
     models "github.com/RaihanMalay21/models_TB_Berkah_Jaya"
-    helper "github.com/RaihanMalay21/server-registry-TB-Berkah-Jaya/helper"
-	"github.com/golang-jwt/jwt/v5"
 )
 
 func ChangePassword(w http.ResponseWriter, r *http.Request) {
@@ -32,34 +31,11 @@ func ChangePassword(w http.ResponseWriter, r *http.Request) {
 	// }
 	// IDUser := session.Values["id"]
 
-	// mengambil cookie dari http request
-	c, err := r.Cookie("token")
+	IDUser, err := helper.GetIDFromToken(r)
 	if err != nil {
-		log.Println("Missing token cookie:", err)
-		response := map[string]interface{}{"message": "Unauthorized"}
-		helper.Response(w, response, http.StatusUnauthorized)
-		return
-	}
-
-	// mengambil token value
-	tokenString := c.Value
-	claims := &config.JWTClaim{}
-	//parsing token jwt
-	token, err := jwt.ParseWithClaims(tokenString, claims, func(t *jwt.Token) (interface{}, error){
-		return config.JWT_KEY, nil
-	})
-	if err != nil || !token.Valid {
-		log.Println("Error parsing token:", err)
-		response := map[string]interface{}{"message": "Unauthorized"}
-		helper.Response(w, response, http.StatusUnauthorized)
-		return
-	}
-	
-	IDUser := claims.ID
-	if IDUser == 0 {
-		log.Println("Invalid user ID in token")
-		response := map[string]interface{}{"message": "Unauthorized"}
-		helper.Response(w, response, http.StatusUnauthorized)
+		log.Println(err)
+		message := map[string]interface{}{"message": err.Error()}
+		helper.Response(w, message, http.StatusInternalServerError)
 		return
 	}
 	
