@@ -1,20 +1,11 @@
-
-# Stage 1: Build
 FROM golang:1.22-alpine AS builder
 WORKDIR /app
+COPY go.mod go.sum ./
+RUN go mod download
 COPY . .
-RUN go build -o server_registration main.go
-
-# Stage 2: Runtime
-FROM alpine:latest
-WORKDIR /app
-COPY --from=builder /app/server_registration .
-
-RUN chmod +x /app/server_registration
-
-USER nobody
-CMD ["/app/server_registration"]
-
-EXPOSE 8080
+RUN go build -o main ./main.go
+RUN chmod +x main
+EXPOSE 4040
+CMD ["./main"]
 
 
