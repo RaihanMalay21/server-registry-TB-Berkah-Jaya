@@ -22,7 +22,7 @@ jobs:
       - name: Login to docker hub
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
       - name: Build docker image
-        run: docker build -t /raihanmalay/test-server-go .
+        run: docker build -t raihanmalay/test-server-go .
       - name: Push image to docker hub
         run: docker push raihanmalay/test-server-go:latest
   deploy:
