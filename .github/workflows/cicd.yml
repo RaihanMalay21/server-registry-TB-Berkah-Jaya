@@ -30,9 +30,9 @@ jobs:
     runs-on: self-hosted
     steps:
       -name: Pull docker image
-        run: docker pull raihanmalay/test-server-go:latest
+       run: docker pull raihanmalay/test-server-go:latest
       -name: Delete old container
-        run: docker rm -f server-test-go
+       run: docker rm -f server-test-go
       -name: Run docker container
-        run: docker run -d -p 4040:4040 --name server-test-go raihanmalay/test-server-go:latest
+       run: docker run -d -p 4040:4040 --name server-test-go raihanmalay/test-server-go:latest
         
