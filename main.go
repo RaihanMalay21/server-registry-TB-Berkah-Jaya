@@ -3,13 +3,14 @@ package main
 import (
 	"github.com/gorilla/mux"
 	// "github.com/gorilla/handlers"
-	"net/http"
 	"log"
+	"net/http"
+
 	// "fmt"
 
+	"github.com/RaihanMalay21/server-registry-TB-Berkah-Jaya/config"
 	"github.com/RaihanMalay21/server-registry-TB-Berkah-Jaya/controller"
 	"github.com/RaihanMalay21/server-registry-TB-Berkah-Jaya/controller/template"
-	config "github.com/RaihanMalay21/config-tb-berkah-jaya"
 )
 
 func main() {
@@ -19,13 +20,13 @@ func main() {
 	// r.Use(corsMiddlewares)
 	api := r.PathPrefix("/berkahjaya").Subrouter()
 	api.HandleFunc("/login", controller.Login).Methods("POST", "OPTIONS")
-	api.HandleFunc("/signup", controller.SignUp).Methods("POST", "OPTIONS") 
+	api.HandleFunc("/signup", controller.SignUp).Methods("POST", "OPTIONS")
 	api.HandleFunc("/logout", controller.LogOut).Methods("GET", "OPTIONS")
 	// r.HandleFunc("/get/hadiah", controller.Hadiah).Methods("GET")
 	api.HandleFunc("/forgot/password", controller.ForgotPassword).Methods("POST", "OPTIONS")
 	api.HandleFunc("/forgot/password/reset", template.PageResetPassword).Methods("GET", "OPTIONS")
 	api.HandleFunc("/forgot/password/reset", controller.ForgotPasswordChangePassword).Methods("POST", "OPTIONS")
-	
+
 	// corsHandler := handlers.CORS(
 	// 	handlers.AllowedOrigins([]string{"https://fe-tb-berkah-jaya-igcfjdj5fa-uc.a.run.app"}),
 	// 	handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}),

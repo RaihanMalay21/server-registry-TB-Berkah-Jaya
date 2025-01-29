@@ -1,17 +1,18 @@
 package helper
 
 import (
+	"errors"
+
 	ut "github.com/go-playground/universal-translator"
 	"github.com/go-playground/validator/v10"
 	"gorm.io/gorm"
-	"errors"
 
-	config "github.com/RaihanMalay21/config-tb-berkah-jaya"
 	models "github.com/RaihanMalay21/models_TB_Berkah_Jaya"
+	"github.com/RaihanMalay21/server-registry-TB-Berkah-Jaya/config"
 )
 
 func isPhoneUnique(phone string) bool {
-	// check apakah data exist in database 
+	// check apakah data exist in database
 	var user models.User
 	if err := config.DB.Where("no_whatshapp = ?", phone).First(&user).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
@@ -32,7 +33,7 @@ func isEmailUnique(email string) bool {
 		}
 		return false
 	}
-	
+
 	return false
 }
 

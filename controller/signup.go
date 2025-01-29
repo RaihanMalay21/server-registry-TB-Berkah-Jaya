@@ -1,18 +1,18 @@
 package controller
 
 import (
-    "encoding/json"
-    "fmt"
-    "log"
-    "net/http"
+	"encoding/json"
+	"fmt"
+	"log"
+	"net/http"
 
-    "golang.org/x/crypto/bcrypt"
-    "github.com/go-playground/validator/v10"
-    "github.com/go-playground/validator/v10/translations/id"
+	"github.com/go-playground/validator/v10"
+	"github.com/go-playground/validator/v10/translations/id"
+	"golang.org/x/crypto/bcrypt"
 
-    config "github.com/RaihanMalay21/config-tb-berkah-jaya"
-    models "github.com/RaihanMalay21/models_TB_Berkah_Jaya"
-    helper "github.com/RaihanMalay21/server-registry-TB-Berkah-Jaya/helper"
+	models "github.com/RaihanMalay21/models_TB_Berkah_Jaya"
+	"github.com/RaihanMalay21/server-registry-TB-Berkah-Jaya/config"
+	helper "github.com/RaihanMalay21/server-registry-TB-Berkah-Jaya/helper"
 )
 
 func SignUp(w http.ResponseWriter, r *http.Request) {
@@ -24,22 +24,21 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("error")
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
-	} 
+	}
 
 	log.Println("UserSignup data:", UserSignup)
 
-	// inalisasi validate 
+	// inalisasi validate
 	validate := validator.New(validator.WithRequiredStructEnabled())
 	trans := helper.TranslatorIDN()
 	id.RegisterDefaultTranslations(validate, trans)
 	helper.RegisterCustomValidations(validate, trans)
 
-	
 	// Validasi data
 	if err := validate.Struct(&UserSignup); err != nil {
 
 		errs := err.(validator.ValidationErrors)
-			
+
 		errors := errs.Translate(trans)
 		log.Println("Validation errors:", errors)
 		helper.Response(w, errors, http.StatusBadRequest)
@@ -51,9 +50,8 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 	// if err := config.DB.Where("user_name = ?", UserSignup.UserName).First(&User).Error; err != nil{
 	// 	switch err {
 	// 	case gorm.ErrRecordNotFound:
-			
 
-	// 		// response 
+	// 		// response
 	// 		helper.Response(w, "Berhasil Registrasi, Silahkan Login", http.StatusOK)
 	// 		return
 	// 	case nil:

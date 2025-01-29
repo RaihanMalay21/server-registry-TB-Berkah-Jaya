@@ -1,15 +1,15 @@
 package controller
 
 import (
-    "html/template"
-    "log"
-    "net/http"
+	"html/template"
+	"log"
+	"net/http"
 
-    "golang.org/x/crypto/bcrypt"
-    "github.com/golang-jwt/jwt/v5"
-    config "github.com/RaihanMalay21/config-tb-berkah-jaya"
-    models "github.com/RaihanMalay21/models_TB_Berkah_Jaya"
-    middlewares "github.com/RaihanMalay21/middlewares_TB_Berkah_Jaya"
+	middlewares "github.com/RaihanMalay21/middlewares_TB_Berkah_Jaya"
+	models "github.com/RaihanMalay21/models_TB_Berkah_Jaya"
+	"github.com/RaihanMalay21/server-registry-TB-Berkah-Jaya/config"
+	"github.com/golang-jwt/jwt/v5"
+	"golang.org/x/crypto/bcrypt"
 )
 
 func ForgotPasswordChangePassword(w http.ResponseWriter, r *http.Request) {
@@ -18,17 +18,17 @@ func ForgotPasswordChangePassword(w http.ResponseWriter, r *http.Request) {
 	token := r.FormValue("token")
 
 	type DataMessage struct {
-		Password string
+		Password       string
 		PasswordRepeat string
-		NotMatched string
-		Token string
-		Error interface{}
+		NotMatched     string
+		Token          string
+		Error          interface{}
 	}
 
 	dataMessage := DataMessage{
-		Password: password, 
-		PasswordRepeat: passwordRepeat, 
-		Token: token,
+		Password:       password,
+		PasswordRepeat: passwordRepeat,
+		Token:          token,
 	}
 
 	tmpl, err := template.ParseFiles("././template/resetPassword.html")
@@ -70,10 +70,9 @@ func ForgotPasswordChangePassword(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// hashing password 
+	// hashing password
 	hashPassword, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	hashPasswordString := string(hashPassword)
-
 
 	// update in database on field column password users
 	if err := config.DB.Model(&models.User{}).Where("email = ?", email).Update("password", hashPasswordString).Error; err != nil {

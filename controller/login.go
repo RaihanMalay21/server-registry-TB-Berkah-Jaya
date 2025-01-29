@@ -7,12 +7,12 @@ import (
 	"strings"
 	"time"
 
+	models "github.com/RaihanMalay21/models_TB_Berkah_Jaya"
+	"github.com/RaihanMalay21/server-registry-TB-Berkah-Jaya/config"
+	helper "github.com/RaihanMalay21/server-registry-TB-Berkah-Jaya/helper"
 	"github.com/golang-jwt/jwt/v5"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
-	models "github.com/RaihanMalay21/models_TB_Berkah_Jaya"
-	helper "github.com/RaihanMalay21/server-registry-TB-Berkah-Jaya/helper"
-	config "github.com/RaihanMalay21/config-tb-berkah-jaya"
 )
 
 func Login(w http.ResponseWriter, r *http.Request) {
@@ -24,17 +24,17 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Gagal login!, Silahkan coba lagi", http.StatusInternalServerError)
 		return
 	}
-	
+
 	// inialisasi session
 	session, err := config.Store.Get(r, "berkah-jaya-session")
-		if err != nil {
-			log.Println("Error Getting session:", err)
-			http.Error(w, "cannot sign to session", http.StatusInternalServerError)
-			return
-		}
+	if err != nil {
+		log.Println("Error Getting session:", err)
+		http.Error(w, "cannot sign to session", http.StatusInternalServerError)
+		return
+	}
 
-	// jika yang login adalah admin 
-	if Userlogin["usernameORemail"] == "RaihanMalay21" || Userlogin["usernameORemail"] == "Wirawati21" || Userlogin["usernameORemail"] =="Yondrizal21" {
+	// jika yang login adalah admin
+	if Userlogin["usernameORemail"] == "RaihanMalay21" || Userlogin["usernameORemail"] == "Wirawati21" || Userlogin["usernameORemail"] == "Yondrizal21" {
 		// mengambil data dari database
 		var adminlogin models.User
 		if err := config.DB.Where("user_name = ?", Userlogin["usernameORemail"]).First(&adminlogin).Error; err != nil {
@@ -70,17 +70,17 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		expTime := time.Now().Add(24 * time.Hour)
 		claims := &config.JWTClaim{
 			UserName: Userlogin["usernameORemail"],
-			Role: "Admin",
-			ID: adminlogin.ID,
+			Role:     "Admin",
+			ID:       adminlogin.ID,
 			RegisteredClaims: jwt.RegisteredClaims{
-				Issuer: "go-jwt-mux",
+				Issuer:    "go-jwt-mux",
 				ExpiresAt: jwt.NewNumericDate(expTime),
 			},
 		}
 
 		// mendeklarasi algoritma yang akan digunakan untuk signed token
 		tokenAlgo := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-		
+
 		// signed toke
 		token, err := tokenAlgo.SignedString(config.JWT_KEY)
 		if err != nil {
@@ -91,17 +91,17 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 		// set token ke dalam cookie
 		http.SetCookie(w, &http.Cookie{
-			Name: "token",
-			Value: token,
+			Name:     "token",
+			Value:    token,
 			HttpOnly: true,
-			Secure: true, 
-			Path: "/",
-			MaxAge: 24 * 60 * 60,
+			Secure:   true,
+			Path:     "/",
+			MaxAge:   24 * 60 * 60,
 			// SameSite: http.SameSiteLaxMode,
 			SameSite: http.SameSiteNoneMode, // mengizinkan lintas domain
 		})
 
-		// set session untuk menyimpan data sensitif users 
+		// set session untuk menyimpan data sensitif users
 		session.Values["id"] = adminlogin.ID
 		session.Values["role"] = "Admin"
 
@@ -115,8 +115,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-
-	// auhentikasi apakah email 
+	// auhentikasi apakah email
 	var fieldColumn string
 	usernameORemail, ok := Userlogin["usernameORemail"]
 	if ok && usernameORemail != "" {
@@ -127,7 +126,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 			fieldColumn = "user_name"
 		}
 
-	} 
+	}
 
 	if fieldColumn == "" {
 		http.Error(w, "Username atau email harus diisi", http.StatusBadRequest)
@@ -136,7 +135,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 	// mengambil data berdarkan username
 	var login models.User
-	if err := config.DB.Where(fieldColumn + " = ?", usernameORemail).First(&login).Error; err != nil {
+	if err := config.DB.Where(fieldColumn+" = ?", usernameORemail).First(&login).Error; err != nil {
 		switch err {
 		case gorm.ErrRecordNotFound:
 			log.Println("User username tidak ditemukan:", err)
@@ -169,10 +168,10 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	expTime := time.Now().Add(24 * time.Hour)
 	claims := &config.JWTClaim{
 		UserName: login.UserName,
-		Role: "Customers",
-		ID: login.ID,
+		Role:     "Customers",
+		ID:       login.ID,
 		RegisteredClaims: jwt.RegisteredClaims{
-			Issuer: "go-jwt-mux",
+			Issuer:    "go-jwt-mux",
 			ExpiresAt: jwt.NewNumericDate(expTime),
 		},
 	}
@@ -189,12 +188,12 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 	// set token ke dalam cookie
 	http.SetCookie(w, &http.Cookie{
-		Name: "token",
-		Value: token, 
+		Name:     "token",
+		Value:    token,
 		HttpOnly: true,
-		Secure: true,
-		Path: "/",
-		MaxAge: 24 * 60 * 60,
+		Secure:   true,
+		Path:     "/",
+		MaxAge:   24 * 60 * 60,
 		// SameSite: http.SameSiteLaxMode,
 		SameSite: http.SameSiteNoneMode,
 	})

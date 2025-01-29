@@ -5,7 +5,7 @@ import (
 	"log"
 	"fmt"
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/RaihanMalay21/config-tb-berkah-jaya"
+	"github.com/RaihanMalay21/server-registry-TB-Berkah-Jaya/config"
 )
 
 func GetIDFromToken(r *http.Request) (uint, error) {

@@ -1,16 +1,16 @@
 package controller
 
 import (
-    "encoding/json"
-    "log"
-    "net/http"
+	"encoding/json"
+	"log"
+	"net/http"
 
-    "golang.org/x/crypto/bcrypt"
-    "gorm.io/gorm"
+	"golang.org/x/crypto/bcrypt"
+	"gorm.io/gorm"
 
-    "github.com/RaihanMalay21/server-registry-TB-Berkah-Jaya/helper"
-    config "github.com/RaihanMalay21/config-tb-berkah-jaya"
-    models "github.com/RaihanMalay21/models_TB_Berkah_Jaya"
+	models "github.com/RaihanMalay21/models_TB_Berkah_Jaya"
+	"github.com/RaihanMalay21/server-registry-TB-Berkah-Jaya/config"
+	"github.com/RaihanMalay21/server-registry-TB-Berkah-Jaya/helper"
 )
 
 func ChangePassword(w http.ResponseWriter, r *http.Request) {
@@ -38,16 +38,16 @@ func ChangePassword(w http.ResponseWriter, r *http.Request) {
 		helper.Response(w, message, http.StatusInternalServerError)
 		return
 	}
-	
+
 	// retreaving password from database
 	var dataUser models.User
 	if err := config.DB.Select("password").Find(&dataUser, "email = ?", FieldData["email"]).Error; err != nil {
 		switch err {
 		case gorm.ErrRecordNotFound:
-				log.Println("Error Funtion ChangePassword:", err)
-				message := map[string]string{"message": "username atau email tidak ditemukan"}
-				helper.Response(w, message, http.StatusBadRequest)
-				return
+			log.Println("Error Funtion ChangePassword:", err)
+			message := map[string]string{"message": "username atau email tidak ditemukan"}
+			helper.Response(w, message, http.StatusBadRequest)
+			return
 		default:
 			log.Println("Error Function ChangePassword:", err)
 			helper.Response(w, err.Error(), http.StatusInternalServerError)
@@ -59,10 +59,10 @@ func ChangePassword(w http.ResponseWriter, r *http.Request) {
 	if err := bcrypt.CompareHashAndPassword([]byte(dataUser.Password), []byte(FieldData["passwordBefore"])); err != nil {
 		switch err {
 		case bcrypt.ErrMismatchedHashAndPassword:
-				log.Println("Error Function ChangePassword comparation password fail:", err)
-				message := map[string]string{"message": "Password Salah Silahkan Coba Kembali", "field": "passwordBefore"}
-				helper.Response(w, message, http.StatusBadRequest)
-				return			
+			log.Println("Error Function ChangePassword comparation password fail:", err)
+			message := map[string]string{"message": "Password Salah Silahkan Coba Kembali", "field": "passwordBefore"}
+			helper.Response(w, message, http.StatusBadRequest)
+			return
 		default:
 			log.Println("Error Function ChangePassword:", err)
 			http.Error(w, err.Error(), http.StatusInternalServerError)

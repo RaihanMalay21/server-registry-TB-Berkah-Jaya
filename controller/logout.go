@@ -1,14 +1,15 @@
 package controller
 
 import (
-    "net/http"
-    config "github.com/RaihanMalay21/config-tb-berkah-jaya"
-    helper "github.com/RaihanMalay21/server-registry-TB-Berkah-Jaya/helper"
+	"net/http"
+
+	"github.com/RaihanMalay21/server-registry-TB-Berkah-Jaya/config"
+	helper "github.com/RaihanMalay21/server-registry-TB-Berkah-Jaya/helper"
 )
 
 func LogOut(w http.ResponseWriter, r *http.Request) {
-	// menghapus session 
-	session, err := config.Store.Get(r, "berkah-jaya-session") 
+	// menghapus session
+	session, err := config.Store.Get(r, "berkah-jaya-session")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -26,11 +27,11 @@ func LogOut(w http.ResponseWriter, r *http.Request) {
 	// menghapus cookie
 	// Debug log
 	http.SetCookie(w, &http.Cookie{
-		Name : "token",
-		Value: "",
-		MaxAge: -1,
-		Path:  "/",
-		Secure: true,
+		Name:     "token",
+		Value:    "",
+		MaxAge:   -1,
+		Path:     "/",
+		Secure:   true,
 		HttpOnly: true,
 		SameSite: http.SameSiteNoneMode,
 	})
