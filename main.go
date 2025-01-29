@@ -34,7 +34,7 @@ func main() {
 	// 	handlers.AllowCredentials(),
 	// )
 
-	log.Fatal(http.ListenAndServe(":8080", r))
+	log.Fatal(http.ListenAndServe(":4040", r))
 }
 
 // func corsMiddlewares(next http.Handler) http.Handler {
