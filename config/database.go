@@ -27,7 +27,7 @@ func DB_Connection() {
 	dbPort := os.Getenv("DB_PORT")
 
 	fmt.Println(dbUser, dbPwdd, dbHost, dbName, dbPort)
-	log.Pritln(dbUser, dbPwdd, dbHost, dbName, dbPort)
+	log.Println(dbUser, dbPwdd, dbHost, dbName, dbPort)
 	// @unix development
 	dbURI := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", dbUser, dbPwdd, dbHost, dbPort, dbName)
 
