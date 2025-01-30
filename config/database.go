@@ -27,7 +27,6 @@ func DB_Connection() {
 	dbPort := os.Getenv("DB_PORT")
 
 	fmt.Println(dbUser, dbPwdd, dbHost, dbName, dbPort)
-	fmt.Println(dbUser, dbPwdd, dbHost, dbName, dbPort)
 	// @unix development
 	dbURI := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", dbUser, dbPwdd, dbHost, dbPort, dbName)
 
@@ -35,6 +34,7 @@ func DB_Connection() {
 	if err != nil {
 		panic(err)
 	}
+	fmt.Println("SUCCESS CONNECT TO DATABASE")
 
 	db.AutoMigrate(&models.User{})
 	db.AutoMigrate(&models.Barang{})
